@@ -32,8 +32,11 @@
 
         /* Prevalecer paleta en inputs nativos */
         input[type="checkbox"], input[type="range"], select { accent-color: var(--c-primary); }
-        .flex-col > label { display:flex; align-items:center; justify-content:space-between; gap:8px; color: var(--c-dark); }
-        .flex-col > label > span { flex: 1 1 auto; }
+    .flex-col > label { display:flex; align-items:center; justify-content:space-between; gap:8px; color: var(--c-dark); }
+    .flex-col > label > span { flex: 1 1 auto; }
+    /* Filas específicas para color (no usan <label> para evitar clic accidental) */
+    .flex-col .control-row { display:flex; align-items:center; justify-content:space-between; gap:8px; color: var(--c-dark); }
+    .control-row .control-label { flex: 1 1 auto; }
         /* Reducir el input color a un swatch compacto */
         input[type="color"]{ -webkit-appearance: none; appearance: none; border: 1px solid var(--c-dark); width: 34px; height: 24px; padding: 0; background: transparent; border-radius: 4px; cursor: pointer; flex: 0 0 auto; }
         input[type="color"]::-webkit-color-swatch-wrapper { padding:0; }
@@ -71,6 +74,8 @@
             /* Reacomodar controles para no cortarlos */
             .flex-col > label { flex-direction: column; align-items: flex-start; gap: 4px; }
             .flex-col > label > span { width: 100%; }
+            .flex-col .control-row { flex-direction: column; align-items: flex-start; gap: 4px; }
+            .control-row .control-label { width: 100%; }
             input[type="range"]{ width: 100%; max-width: 100%; }
             input[type="color"]{ width: 38px; height: 28px; }
             #exportBtns button { width: auto; }
@@ -93,9 +98,9 @@
         <div class="section">
             <h3>Estilos</h3>
             <div class="flex-col">
-                <label><span>Color área</span> <input type="color" id="colorFill" value="#66bb6a"></label>
-                <label><span>Color borde</span> <input type="color" id="colorStroke" value="#222222"></label>
-                <label><span>Color texto</span> <input type="color" id="colorText" value="#000000"></label>
+                <div class="control-row"><div class="control-label">Color área</div><input type="color" id="colorFill" value="#66bb6a"></div>
+                <div class="control-row"><div class="control-label">Color borde</div><input type="color" id="colorStroke" value="#222222"></div>
+                <div class="control-row"><div class="control-label">Color texto</div><input type="color" id="colorText" value="#000000"></div>
                 <label>Opacidad <input type="range" min="0.2" max="1" step="0.05" id="opacityRange" value="0.8" /></label>
                 <label>Grosor borde <input type="range" min="0.5" max="4" step="0.1" id="strokeWidthRange" value="1.2" /></label>
                 <label>Atenuación mundo <input type="range" min="0" max="1" step="0.01" id="worldOpacityRange" value="0.05" /></label>
