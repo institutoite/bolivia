@@ -7,7 +7,8 @@
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
   @vite(['resources/js/app.js','resources/css/app.css'])
   <style>
-    :root{ --c-dark:#375f7a; --c-accent:#26baa5; }
+    /* Colores personalizados por solicitud */
+    :root{ --c-dark: rgb(55,95,122); --c-accent: rgb(38,186,165); }
     html,body{ height:100%; margin:0 }
     body{ font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji"; font-size:16px; line-height:1.45; color:#1d2a35 }
     .layout{ display:flex; height:100vh; }
@@ -16,8 +17,26 @@
     h2{ margin:6px 0 10px; color:var(--c-dark); font-size:22px; font-weight:700 }
     .group{ margin-bottom:14px }
     .group h3{ margin:12px 0 8px; font-size:17px; color:var(--c-dark); font-weight:600 }
-    .file-item{ display:flex; align-items:center; gap:10px; font-size:15px; margin:4px 0 }
-    .file-item input[type="checkbox"]{ transform: scale(1.2); transform-origin:left center }
+    .file-item{ position:relative; display:flex; align-items:center; gap:10px; font-size:15px; margin:6px 0; }
+    /* Ocultar el checkbox nativo pero mantener accesibilidad (está enlazado con label mediante id) */
+    .file-item input[type="checkbox"]{ position:absolute; left:-9999px; opacity:0; width:0; height:0; }
+    /* Apariencia del menú: etiqueta completa clicable y efecto hover */
+    .file-item label{ display:block; position:relative; padding:8px 10px 8px 48px; border-radius:8px; cursor:pointer; transition: background-color 160ms ease, color 160ms ease, transform 140ms ease, box-shadow 160ms ease; color: #123; }
+  .file-item label:hover{ background: rgba(38,186,165,0.14); color: var(--c-dark); transform: translateX(6px); box-shadow: 0 10px 30px rgba(38,186,165,0.08); }
+    .file-item:hover{ background: rgba(0,0,0,0.02); }
+    /* Checkbox visual personalizado dentro del label */
+    .file-item label::before{ content: ''; position: absolute; left:12px; top:50%; transform: translateY(-50%); width:20px; height:20px; border-radius:6px; border:2px solid var(--c-accent); background: transparent; transition: all 160ms ease; box-shadow: 0 1px 0 rgba(0,0,0,0.04); }
+    /* Marca de verificación (usando borders) */
+    .file-item label::after{ content: ''; position: absolute; left:16px; top:50%; transform: translateY(-50%) rotate(45deg) scale(0); width:6px; height:12px; border-right:3px solid white; border-bottom:3px solid white; opacity:0; transition: transform 140ms ease, opacity 140ms ease; }
+    /* Hover sobre el label hace destacar el checkbox */
+    .file-item label:hover::before{ transform: translateY(-50%) scale(1.05); box-shadow: 0 6px 18px rgba(38,186,165,0.08); }
+  /* Estado activo cuando checkbox está marcado: fondo degradado y check visible */
+  .file-item input[type="checkbox"]:checked + label,
+  .file-item.active label { color:#fff; background: linear-gradient(90deg, var(--c-accent), var(--c-dark)); box-shadow: 0 10px 30px rgba(37,150,130,0.16); }
+  .file-item input[type="checkbox"]:checked + label::before,
+  .file-item.active label::before { transform: translateY(-50%) scale(1.05); border-color: transparent; background: linear-gradient(90deg, var(--c-accent), var(--c-dark)); }
+  .file-item input[type="checkbox"]:checked + label::after,
+  .file-item.active label::after { transform: translateY(-50%) rotate(45deg) scale(1); opacity:1; }
     .controls{ border-top:1px solid rgba(0,0,0,0.08); margin-top:10px; padding-top:10px; font-size:15px }
     .controls label{ display:flex; justify-content:space-between; align-items:center; gap:10px }
     .btn{ background:var(--c-dark); color:#fff; border:none; border-radius:8px; padding:8px 12px; font-size:15px; cursor:pointer }

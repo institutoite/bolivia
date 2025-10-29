@@ -4,7 +4,7 @@
     {
       "type": "Feature",
       "properties": {
-        "num_notaria": 1,
+        "etiqueta": 1,
         "nombre_notaria": "Marcelo Menacho Ferrante",
         "direccion": "Calle Potosí № 50"
       },
@@ -19,7 +19,7 @@
     {
       "type": "Feature",
       "properties": {
-        "num_notaria": 2,
+        "etiqueta": 2,
         "nombre_notaria": "María Luisa Lozada Bravo",
         "direccion": "Calle 21 de Mayo № 680"
       },
@@ -34,7 +34,7 @@
     {
       "type": "Feature",
       "properties": {
-        "num_notaria": 3,
+        "etiqueta": 3,
         "nombre_notaria": "Isaías Velasco Castro",
         "direccion": "Calle Junín № 351"
       },
@@ -49,7 +49,7 @@
     {
       "type": "Feature",
       "properties": {
-        "num_notaria": 4,
+        "etiqueta": 4,
         "nombre_notaria": "Lorenzo Sandoval Estenssoro",
         "direccion": "Calle Mariano Saucedo Sevilla № 31"
       },
@@ -64,7 +64,7 @@
     {
       "type": "Feature",
       "properties": {
-        "num_notaria": 5,
+        "etiqueta": 5,
         "nombre_notaria": "Geraldine Durán Santa Cruz",
         "direccion": "Calle Beni № 600 - Esq. Adán Gutiérrez - Edificio Valdivia"
       },
@@ -79,7 +79,7 @@
     {
       "type": "Feature",
       "properties": {
-        "num_notaria": 6,
+        "etiqueta": 6,
         "nombre_notaria": "Paola Alejandra Aramayo Melgar",
         "direccion": "Calle Prolongación Ingavi № 929"
       },
@@ -94,7 +94,7 @@
     {
       "type": "Feature",
       "properties": {
-        "num_notaria": 7,
+        "etiqueta": 7,
         "nombre_notaria": "José Carlos Álvarez Arza",
         "direccion": "Av. Omar Chávez Ortiz № 1250"
       },
@@ -109,7 +109,7 @@
     {
       "type": "Feature",
       "properties": {
-        "num_notaria": 8,
+        "etiqueta": 8,
         "nombre_notaria": "Carmen Alejandra Abuawad Hevia",
         "direccion": "Calle Tarija № 730 - Entre Agustín Saavedra y Av. Irala"
       },
@@ -124,7 +124,7 @@
     {
       "type": "Feature",
       "properties": {
-        "num_notaria": 9,
+        "etiqueta": 9,
         "nombre_notaria": "Tania Villagómez Dorado",
         "direccion": "Av. Nicolás Suarez № 962 - 4to Anillo - Entre Av. Mutualista y 2 de Agosto"
       },
@@ -139,7 +139,7 @@
     {
       "type": "Feature",
       "properties": {
-        "num_notaria": 10,
+        "etiqueta": 10,
         "nombre_notaria": "Jaime David Canedo Encinas",
         "direccion": "Calle Padre Landini № 41"
       },
@@ -154,7 +154,7 @@
     {
       "type": "Feature",
       "properties": {
-        "num_notaria": 14,
+        "etiqueta": 14,
         "nombre_notaria": "René Vicente Arzabe Soruco",
         "direccion": "4to Anillo casi esq. Av. Mutualista"
       },
@@ -169,7 +169,7 @@
     {
       "type": "Feature",
       "properties": {
-        "num_notaria": 15,
+        "etiqueta": 15,
         "nombre_notaria": "Dolly Martínez Basma",
         "direccion": "Calle Potosí № 362 -Entre Republiquetas y Warnes"
       },
@@ -184,7 +184,7 @@
     {
       "type": "Feature",
       "properties": {
-        "num_notaria": 18,
+        "etiqueta": 18,
         "nombre_notaria": "Luís Alberto López Paniagua",
         "direccion": "Av. Irala - Esq. Calle René Moreno - Edif. Jenecherú - 1er Piso - Of. 1"
       },
@@ -199,7 +199,7 @@
     {
       "type": "Feature",
       "properties": {
-        "num_notaria": 21,
+        "etiqueta": 21,
         "nombre_notaria": "Offman Yerko Zambrana Vargas",
         "direccion": "Calle Ballivian esquina Chuquisaca - Edificio Oriente - Planta Baja - Oficinas 10 y 11"
       },
@@ -214,7 +214,7 @@
     {
       "type": "Feature",
       "properties": {
-        "num_notaria": 22,
+        "etiqueta": 22,
         "nombre_notaria": "Lucio Canaza Sacaca",
         "direccion": "Calle 6 Oeste № 2 - Villa 1ro de Mayo"
       },
@@ -229,7 +229,7 @@
     {
       "type": "Feature",
       "properties": {
-        "num_notaria": 23,
+        "etiqueta": 23,
         "nombre_notaria": "Ana Ysabel Mariscal Fernández",
         "direccion": "Prolongación Aroma – Ed. Casanova - Of. 14 -Planta Baja"
       },
@@ -244,7 +244,7 @@
     {
       "type": "Feature",
       "properties": {
-        "num_notaria": 25,
+        "etiqueta": 25,
         "nombre_notaria": "Sara Leonor Mendoza Kuno",
         "direccion": "Calle Beni № 615 - Edif. Fergar - Planta Baja - Of. 2"
       },
@@ -259,7 +259,7 @@
     {
       "type": "Feature",
       "properties": {
-        "num_notaria": 26,
+        "etiqueta": 26,
         "nombre_notaria": "Víctor Hugo Rojas Mérida",
         "direccion": "Calle Beni № 627 (Planta Alta)"
       },
@@ -274,7 +274,7 @@
     {
       "type": "Feature",
       "properties": {
-        "num_notaria": 27,
+        "etiqueta": 27,
         "nombre_notaria": "Wilma Carrizales Salvatierra",
         "direccion": "Calle Prolongación Beni № 34 - Of. 02"
       },
@@ -289,7 +289,7 @@
     {
       "type": "Feature",
       "properties": {
-        "num_notaria": 28,
+        "etiqueta": 28,
         "nombre_notaria": "Víctor Janco Cuevas",
         "direccion": "Calle René Moreno № 467"
       },
@@ -304,7 +304,7 @@
     {
       "type": "Feature",
       "properties": {
-        "num_notaria": 30,
+        "etiqueta": 30,
         "nombre_notaria": "Iván Rodríguez García",
         "direccion": "Calle Ballivian № 99 - Esquina Calle Tarija"
       },
@@ -319,7 +319,7 @@
     {
       "type": "Feature",
       "properties": {
-        "num_notaria": 31,
+        "etiqueta": 31,
         "nombre_notaria": "Carola Sandra Gutiérrez Ortega",
         "direccion": "Calle Aroma № 772 - 1er Piso - Of. 13"
       },
@@ -334,7 +334,7 @@
     {
       "type": "Feature",
       "properties": {
-        "num_notaria": 33,
+        "etiqueta": 33,
         "nombre_notaria": "Jenny Erika Reyes Leaño",
         "direccion": "Av. San Martín - Esq. Calle G – Condominio Europeo - Bloque III - Planta Baja - Of. 1 - Equipetrol"
       },
@@ -349,7 +349,7 @@
     {
       "type": "Feature",
       "properties": {
-        "num_notaria": 34,
+        "etiqueta": 34,
         "nombre_notaria": "Martha Ariane Antelo Cabruja",
         "direccion": "Calle Ñuflo de Chávez № 481 - Entre Potosí y Tarija"
       },
@@ -364,7 +364,7 @@
     {
       "type": "Feature",
       "properties": {
-        "num_notaria": 39,
+        "etiqueta": 39,
         "nombre_notaria": "Jhandira Jiménez Sánchez",
         "direccion": "Av. Olímpica № 4110 – Of. 1 - Entre 4to y 5to Anillo"
       },
@@ -379,7 +379,7 @@
     {
       "type": "Feature",
       "properties": {
-        "num_notaria": 41,
+        "etiqueta": 41,
         "nombre_notaria": "Flora Jumiko Kiyuna Trigo",
         "direccion": "Avenida Prolongación Brasil № 3125"
       },
@@ -394,7 +394,7 @@
     {
       "type": "Feature",
       "properties": {
-        "num_notaria": 43,
+        "etiqueta": 43,
         "nombre_notaria": "Bertha Lipsi Urzagaste Zabala",
         "direccion": "Calle Celso Castedo № 58"
       },
@@ -409,7 +409,7 @@
     {
       "type": "Feature",
       "properties": {
-        "num_notaria": 45,
+        "etiqueta": 45,
         "nombre_notaria": "José Caballero Rueda",
         "direccion": "Avenida 2 de Agosto № 4010 - Cambódromo"
       },
@@ -424,7 +424,7 @@
     {
       "type": "Feature",
       "properties": {
-        "num_notaria": 47,
+        "etiqueta": 47,
         "nombre_notaria": "Percy Justiniano Melgar",
         "direccion": "Avenida Mutualista № 3390 - Casi con el 4to Anillo"
       },
@@ -439,7 +439,7 @@
     {
       "type": "Feature",
       "properties": {
-        "num_notaria": 50,
+        "etiqueta": 50,
         "nombre_notaria": "Vanessa Claudia Lizarazu Villarroel",
         "direccion": "Calle 24 de Septiembre № 568 - Planta Baja - Frente al Colegio de Abogados"
       },
@@ -454,7 +454,7 @@
     {
       "type": "Feature",
       "properties": {
-        "num_notaria": 51,
+        "etiqueta": 51,
         "nombre_notaria": "María Esther Méndez Vaca",
         "direccion": "Avenida Roque Ajubro Tercer Anillo - Barrio Aeronáutico"
       },
@@ -469,7 +469,7 @@
     {
       "type": "Feature",
       "properties": {
-        "num_notaria": 53,
+        "etiqueta": 53,
         "nombre_notaria": "Randy Stalin Balcázar Leigue",
         "direccion": "4to Anillo frente a la Academia Tahuichi Aguilera- Zona Sur"
       },
@@ -484,7 +484,7 @@
     {
       "type": "Feature",
       "properties": {
-        "num_notaria": 54,
+        "etiqueta": 54,
         "nombre_notaria": "Mayra Ninoshka Mercado Michel",
         "direccion": "Calle Güemes entre San Martín y Enrique Finot - Edif. The Loft Planta Baja. Of.102 - Equipetrol"
       },
@@ -499,7 +499,7 @@
     {
       "type": "Feature",
       "properties": {
-        "num_notaria": 56,
+        "etiqueta": 56,
         "nombre_notaria": "Adela Ramírez Rodríguez",
         "direccion": "Calle Alcide d' Orbigny № 99 - Of. 3 - Centro"
       },
@@ -514,7 +514,7 @@
     {
       "type": "Feature",
       "properties": {
-        "num_notaria": 57,
+        "etiqueta": 57,
         "nombre_notaria": "Ana Moyra Jordán Mardinez",
         "direccion": "Calle Chuquisaca № 227 - Entre Ñuflo de Chávez y Warnes - Centro"
       },
@@ -529,7 +529,7 @@
     {
       "type": "Feature",
       "properties": {
-        "num_notaria": 58,
+        "etiqueta": 58,
         "nombre_notaria": "Marcela Marlene Lazo Sarabia",
         "direccion": "Barrio Grigotá - Calle Los Cocos № 173 - Zona Mutualista"
       },
@@ -544,7 +544,7 @@
     {
       "type": "Feature",
       "properties": {
-        "num_notaria": 59,
+        "etiqueta": 59,
         "nombre_notaria": "Beverly Vidal Rosado",
         "direccion": "Calle Murillo № 17 - Centro"
       },
@@ -559,7 +559,7 @@
     {
       "type": "Feature",
       "properties": {
-        "num_notaria": 61,
+        "etiqueta": 61,
         "nombre_notaria": "Silvia Valeria Gutiérrez",
         "direccion": "Calle Beni № 647"
       },
@@ -574,7 +574,7 @@
     {
       "type": "Feature",
       "properties": {
-        "num_notaria": 62,
+        "etiqueta": 62,
         "nombre_notaria": "Hugo Mauricio Miranda Valenzuela",
         "direccion": "Calle Aroma - Ed. Casanova Planta Baja № 12 - Centro"
       },
@@ -589,7 +589,7 @@
     {
       "type": "Feature",
       "properties": {
-        "num_notaria": 66,
+        "etiqueta": 66,
         "nombre_notaria": "Ruth Rosario Villarroel Quisbert",
         "direccion": "Av. Trinidad - Esq. Luis Lavadenz - Entre 2do y 1er Anillo - Frente a la UNICEN"
       },
@@ -604,7 +604,7 @@
     {
       "type": "Feature",
       "properties": {
-        "num_notaria": 67,
+        "etiqueta": 67,
         "nombre_notaria": "Tanya Teresa Prada Junis",
         "direccion": "Prolongación Beni № 10 - Of. 1 - Centro"
       },
@@ -619,7 +619,7 @@
     {
       "type": "Feature",
       "properties": {
-        "num_notaria": 68,
+        "etiqueta": 68,
         "nombre_notaria": "Marco Antonio Pantoja Mealla",
         "direccion": "Calle Alfonsina Storni № 23 - Barrio Equipetrol"
       },
@@ -634,7 +634,7 @@
     {
       "type": "Feature",
       "properties": {
-        "num_notaria": 70,
+        "etiqueta": 70,
         "nombre_notaria": "Rosario Escalante Pardo",
         "direccion": "Calle Alcide d´Orbigny № 63 - Of 2 - Centro"
       },
@@ -649,7 +649,7 @@
     {
       "type": "Feature",
       "properties": {
-        "num_notaria": 71,
+        "etiqueta": 71,
         "nombre_notaria": "Enrique Clever Meneses Peña",
         "direccion": "Avenida Cañoto № 36"
       },
@@ -664,7 +664,7 @@
     {
       "type": "Feature",
       "properties": {
-        "num_notaria": 74,
+        "etiqueta": 74,
         "nombre_notaria": "Ivonne Rosario Satt Subirana",
         "direccion": "Calle Mercado № 10 - Casi Esquina René Moreno – Casco Viejo"
       },
@@ -679,7 +679,7 @@
     {
       "type": "Feature",
       "properties": {
-        "num_notaria": 75,
+        "etiqueta": 75,
         "nombre_notaria": "Marioly Rocha Arancibia",
         "direccion": "Calle Chuquisaca № 268 - 0fic. 02"
       },
@@ -694,7 +694,7 @@
     {
       "type": "Feature",
       "properties": {
-        "num_notaria": 76,
+        "etiqueta": 76,
         "nombre_notaria": "Hugo Alejandro Vargas Sainz",
         "direccion": "Avenida Uruguay № 150 - Esq. Calle Beni - Piso 1- Oficinas 10 11 12 y 13 - Centro"
       },
@@ -709,7 +709,7 @@
     {
       "type": "Feature",
       "properties": {
-        "num_notaria": 79,
+        "etiqueta": 79,
         "nombre_notaria": "Clara Ivonne Phillips de Saucedo",
         "direccion": "Calle Independencia esq. Ingavi - Galería Paitití - Oficinas 21- 22- 23- 24-105 - Centro"
       },
@@ -724,7 +724,7 @@
     {
       "type": "Feature",
       "properties": {
-        "num_notaria": 80,
+        "etiqueta": 80,
         "nombre_notaria": "Gregorio Bernardo Herrera Maydana",
         "direccion": "Sin dirección registrada"
       },
@@ -739,7 +739,7 @@
     {
       "type": "Feature",
       "properties": {
-        "num_notaria": 84,
+        "etiqueta": 84,
         "nombre_notaria": "Silvia Eugenia Romero Durán",
         "direccion": "4to Anillo - Esq. Calle Corao Suna - Barrio Villa Warnes"
       },
@@ -754,7 +754,7 @@
     {
       "type": "Feature",
       "properties": {
-        "num_notaria": 85,
+        "etiqueta": 85,
         "nombre_notaria": "Mary Lidia Ramírez Tapia",
         "direccion": "Av. Uruguay № 32- Of. 9 - Entre Calles Beni y 24 de Septiembre - Centro"
       },
@@ -769,7 +769,7 @@
     {
       "type": "Feature",
       "properties": {
-        "num_notaria": 86,
+        "etiqueta": 86,
         "nombre_notaria": "José Ernesto Aponte Ribera",
         "direccion": "Calle Ñuflo de Chávez № 57 - Centro"
       },
@@ -784,7 +784,7 @@
     {
       "type": "Feature",
       "properties": {
-        "num_notaria": 87,
+        "etiqueta": 87,
         "nombre_notaria": "Raúl Rojas Ascarrunz",
         "direccion": "Calle 2 № 11 - Barrio Venezuela - Pampa de La Isla"
       },
@@ -799,7 +799,7 @@
     {
       "type": "Feature",
       "properties": {
-        "num_notaria": 88,
+        "etiqueta": 88,
         "nombre_notaria": "Rosse Mery Uriona Almaraz",
         "direccion": "Villa 1ro. de Mayo - Calle 5 Oeste - Diagonal al Banco Sol"
       },
@@ -814,7 +814,7 @@
     {
       "type": "Feature",
       "properties": {
-        "num_notaria": 89,
+        "etiqueta": 89,
         "nombre_notaria": "Elva Elena Ugarteche Lino",
         "direccion": "Carretera a Cotoca -Calle 5 - Casa 13 -Planta Alta (Barrio San Lorenzo Sur)"
       },
@@ -829,7 +829,7 @@
     {
       "type": "Feature",
       "properties": {
-        "num_notaria": 90,
+        "etiqueta": 90,
         "nombre_notaria": "María Luisa Duran Ávila",
         "direccion": "Plan Tres Mil a 30 metros de la Av. Che Guevara y el Banco FASSIL"
       },
@@ -844,7 +844,7 @@
     {
       "type": "Feature",
       "properties": {
-        "num_notaria": 92,
+        "etiqueta": 92,
         "nombre_notaria": "Aracely Montaño Zeballos",
         "direccion": "Av. Paurito 7mo Anillo -Diagonal al Surtidor Las Orquídeas - Zona Plan 3000"
       },
@@ -859,7 +859,7 @@
     {
       "type": "Feature",
       "properties": {
-        "num_notaria": 93,
+        "etiqueta": 93,
         "nombre_notaria": "Cristian René Molina Machicao",
         "direccion": "Calle Beni № 654"
       },
@@ -874,7 +874,7 @@
     {
       "type": "Feature",
       "properties": {
-        "num_notaria": 94,
+        "etiqueta": 94,
         "nombre_notaria": "Félix Armando Figueredo Pizarroso",
         "direccion": "Prolongación Beni № 43 - Centro"
       },
@@ -889,7 +889,7 @@
     {
       "type": "Feature",
       "properties": {
-        "num_notaria": 95,
+        "etiqueta": 95,
         "nombre_notaria": "Gabriela María Dolly Serrate de Ortiz Null",
         "direccion": "Calle Alcide d'Orbigny № 33 - Frente Acera Norte del Palacio de Justicia"
       },
@@ -904,7 +904,7 @@
     {
       "type": "Feature",
       "properties": {
-        "num_notaria": 96,
+        "etiqueta": 96,
         "nombre_notaria": "Maritza Bernal Viera",
         "direccion": "Calle Luis Darío Vázquez № 20 - Centro"
       },
@@ -919,7 +919,7 @@
     {
       "type": "Feature",
       "properties": {
-        "num_notaria": 97,
+        "etiqueta": 97,
         "nombre_notaria": "Juana Mery Ortiz Romero",
         "direccion": "Av. Monseñor Rivero 359 – Edificio Millenium 1 - Oficina 9 - Centro"
       },
@@ -934,7 +934,7 @@
     {
       "type": "Feature",
       "properties": {
-        "num_notaria": 98,
+        "etiqueta": 98,
         "nombre_notaria": "María Silvia Torrez Sánchez",
         "direccion": "Avenida Mutualista № 3397 - Casi 4to. Anillo"
       },
@@ -949,7 +949,7 @@
     {
       "type": "Feature",
       "properties": {
-        "num_notaria": 99,
+        "etiqueta": 99,
         "nombre_notaria": "Ismael Vargas Aiza",
         "direccion": "Calle 24 de Septiembre № 394 - Esq. Seoane"
       },
@@ -964,7 +964,7 @@
     {
       "type": "Feature",
       "properties": {
-        "num_notaria": 100,
+        "etiqueta": 100,
         "nombre_notaria": "Leidy Flores Arteaga",
         "direccion": "Calle Campero № 114 - Centro"
       },
@@ -979,7 +979,7 @@
     {
       "type": "Feature",
       "properties": {
-        "num_notaria": 101,
+        "etiqueta": 101,
         "nombre_notaria": "Yina Gabriela Franco Camacho",
         "direccion": "4to. Anillo Villa Warnes Diagonal de la Academia Tahuichi"
       },
@@ -994,7 +994,7 @@
     {
       "type": "Feature",
       "properties": {
-        "num_notaria": 103,
+        "etiqueta": 103,
         "nombre_notaria": "Maribel Silvana Espana Pedraza",
         "direccion": "Calle Alcide d´Orbigny № 43 - Centro"
       },
@@ -1009,7 +1009,7 @@
     {
       "type": "Feature",
       "properties": {
-        "num_notaria": 105,
+        "etiqueta": 105,
         "nombre_notaria": "Rodolfo Yánez Luján",
         "direccion": "Av. Villa Olímpica № 4150 - Entre 4to y 5to Anillo"
       },
@@ -1024,7 +1024,7 @@
     {
       "type": "Feature",
       "properties": {
-        "num_notaria": 107,
+        "etiqueta": 107,
         "nombre_notaria": "Paola Regina Tuero Paniagua",
         "direccion": "Villa 1ro de Mayo - Edif. Arriaga - Planta Baja - Of. 3 - A una tienda de Calzados Manaco"
       },
@@ -1039,7 +1039,7 @@
     {
       "type": "Feature",
       "properties": {
-        "num_notaria": 108,
+        "etiqueta": 108,
         "nombre_notaria": "Elizabeth Espinoza Trujillo",
         "direccion": "Plaza Principal Villa 1ero. de Mayo – Calle 5 Este - 2do. Piso Banco BCP"
       },
@@ -1054,7 +1054,7 @@
     {
       "type": "Feature",
       "properties": {
-        "num_notaria": 109,
+        "etiqueta": 109,
         "nombre_notaria": "Carmelo Pinto Alba",
         "direccion": "Alameda Junín № 71 casi Av. Cañoto - Centro"
       },
@@ -1069,7 +1069,7 @@
     {
       "type": "Feature",
       "properties": {
-        "num_notaria": 112,
+        "etiqueta": 112,
         "nombre_notaria": "Fabiola Barrancos Hernández",
         "direccion": "Prolongación Beni № 20 - Edificio Casanova - Planta Baja Of. 5 - Zona Máquina Vieja"
       },
@@ -1084,7 +1084,7 @@
     {
       "type": "Feature",
       "properties": {
-        "num_notaria": 113,
+        "etiqueta": 113,
         "nombre_notaria": "Ichin Isaías Ma Ávalos",
         "direccion": "Av. Beni № 2240 - Entre Av. Los Cusis y Tercer Anillo"
       },
