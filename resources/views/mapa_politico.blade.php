@@ -90,12 +90,22 @@
             <div class="panel-title">Opciones</div>
             <button id="hidePanelBtn" class="hide-panel" title="Ocultar">Ocultar</button>
         </div>
-        <div class="section hide-on-mobile">
+        <div class="section" id="modeSection">
+            <h3>Menú</h3>
+            <div style="display:flex; gap:6px; flex-wrap:wrap">
+                <button class="dept-btn" id="btnModeBolivia">Bolivia</button>
+                <button class="dept-btn" id="btnModeDepartamento">Departamentos</button>
+                <button class="dept-btn" id="btnModeProvincia">Provincia</button>
+                <button class="hide-panel" id="btnBack" style="margin-left:auto" title="Atrás">Atrás</button>
+            </div>
+            <div id="modeNav" class="small" style="margin-top:6px; color:#2b3e4f"></div>
+        </div>
+        <div class="section hide-on-mobile" id="sectionLayers">
             <h3>Capas</h3>
             <label><input type="checkbox" id="toggleAdm1" checked /> Departamentos</label>
             <label class="hide-on-mobile"><input type="checkbox" id="toggleAdm3" /> Provincias</label>
         </div>
-        <div class="section">
+        <div class="section" id="stylesSection" style="display:none">
             <h3>Estilos</h3>
             <div class="flex-col">
                 <div class="control-row"><div class="control-label">Color área</div><input type="color" id="colorFill" value="#66bb6a"></div>
@@ -104,17 +114,19 @@
                 <label>Opacidad <input type="range" min="0.2" max="1" step="0.05" id="opacityRange" value="0.8" /></label>
                 <label>Grosor borde <input type="range" min="0.5" max="4" step="0.1" id="strokeWidthRange" value="1.2" /></label>
                 <label>Atenuación mundo <input type="range" min="0" max="1" step="0.01" id="worldOpacityRange" value="0.05" /></label>
+                <label id="rowRestBolivia" style="display:none"><span>Atenuación resto de Bolivia</span> <input type="range" min="0" max="1" step="0.01" id="restBoliviaRange" value="0.6"></label>
+                <label id="rowDeptAtt" style="display:none"><span>Atenuación de departamento</span> <input type="range" min="0" max="1" step="0.01" id="deptAttenuationRange" value="0.5"></label>
                 <div style="border-top:1px dashed #ddd; margin-top:6px; padding-top:6px;"></div>
                 <label><span>Fondo/halo de texto</span> <input type="checkbox" id="toggleTextHalo" checked></label>
                 <label><span>Color halo</span> <input type="color" id="textHaloColor" value="#ffffff"></label>
                 <label><span>Ancho halo</span> <input type="range" min="0" max="8" step="1" id="textHaloWidth" value="3"></label>
             </div>
         </div>
-        <div class="section hide-on-mobile">
+        <div class="section" id="sectionDeptList" style="display:none">
             <h3>Departamentos</h3>
             <div id="adm1Btns"></div>
         </div>
-        <div class="section hide-on-mobile">
+        <div class="section" id="sectionProvList" style="display:none">
             <h3>Provincias</h3>
             <div id="adm3Btns"></div>
         </div>

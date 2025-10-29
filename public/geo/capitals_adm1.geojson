@@ -1,0 +1,14 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {"type":"Feature","properties":{"name":"La Paz","department":"La Paz"},"geometry":{"type":"Point","coordinates":[-68.1193,-16.4897]}},
+    {"type":"Feature","properties":{"name":"Sucre","department":"Chuquisaca"},"geometry":{"type":"Point","coordinates":[-65.261,-19.0196]}},
+    {"type":"Feature","properties":{"name":"Santa Cruz de la Sierra","department":"Santa Cruz"},"geometry":{"type":"Point","coordinates":[-63.1821,-17.7833]}},
+    {"type":"Feature","properties":{"name":"Cochabamba","department":"Cochabamba"},"geometry":{"type":"Point","coordinates":[-66.1568,-17.3895]}},
+    {"type":"Feature","properties":{"name":"Oruro","department":"Oruro"},"geometry":{"type":"Point","coordinates":[-67.1181,-17.9647]}},
+    {"type":"Feature","properties":{"name":"Potosí","department":"Potosí"},"geometry":{"type":"Point","coordinates":[-65.7531,-19.5836]}},
+    {"type":"Feature","properties":{"name":"Tarija","department":"Tarija"},"geometry":{"type":"Point","coordinates":[-64.7296,-21.5355]}},
+    {"type":"Feature","properties":{"name":"Trinidad","department":"Beni"},"geometry":{"type":"Point","coordinates":[-64.9,-14.8333]}},
+    {"type":"Feature","properties":{"name":"Cobija","department":"Pando"},"geometry":{"type":"Point","coordinates":[-68.7333,-11.0333]}}
+  ]
+}
