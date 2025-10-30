@@ -80,8 +80,9 @@
         <h1>Personaliza y exporta mapas de Bolivia en segundos</h1>
         <p>Colorea departamentos y provincias, ajusta etiquetas, atenúa el fondo y exporta en PNG o PDF. Todo desde tu navegador.</p>
         <div class="cta-row">
-          <a class="btn btn-primary" href="/mapa-politico">Iniciar</a>
-          <a class="btn btn-outline" href="#personaliza">Ver cómo funciona</a>
+          <a class="btn btn-primary" href="/mapa-politico">Bolivia</a>
+         
+          <a class="btn btn-outline" href="/geodatos">Santa Cruz</a>
         </div>
       </div>
       <div class="hero-img">
@@ -106,7 +107,7 @@
     <div class="container">
       <h2 class="section-title">Personaliza tu mapa</h2>
       <p class="section-sub">Elige colores, ajusta etiquetas y exporta. La personalización ya está lista, ¡pruébala ahora!</p>
-      <a class="btn btn-primary" href="/mapa-politico">Iniciar</a>
+      <a class="btn btn-primary" href="/mapa-politico">Bolivia</a>
     </div>
   </section>
 
