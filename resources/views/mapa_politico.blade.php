@@ -18,7 +18,7 @@
     #map {flex:1; height:100vh; width:calc(100vw - 320px);}        
         .section {margin-bottom:14px;}
         .section h3 {margin:8px 0; font-size:14px; color:var(--c-dark)}
-        #adm1Btns, #adm3Btns {display:flex; flex-wrap:wrap; gap:4px;}
+        #adm1Btns, #adm3Btns, #districtBtns {display:flex; flex-wrap:wrap; gap:4px;}
         .dept-btn {padding:4px 8px; font-size:12px; border:1px solid var(--c-dark); background:#fff; cursor:pointer; border-radius:4px; color:var(--c-dark)}
         .dept-btn:hover {background: rgba(38,186,165,0.12)}
         .dept-btn.active {background:var(--c-primary); color:#fff; border-color:var(--c-primary);}
@@ -104,6 +104,7 @@
             <h3>Capas</h3>
             <label><input type="checkbox" id="toggleAdm1" checked /> Departamentos</label>
             <label class="hide-on-mobile"><input type="checkbox" id="toggleAdm3" /> Provincias</label>
+            <label><input type="checkbox" id="toggleDistricts" /> Distritos municipales</label>
         </div>
         <div class="section" id="stylesSection" style="display:none">
             <h3>Estilos</h3>
@@ -129,6 +130,10 @@
         <div class="section" id="sectionProvList" style="display:none">
             <h3>Provincias</h3>
             <div id="adm3Btns"></div>
+            <div id="sectionDistrictList" style="display:none; margin-top:10px; padding-top:8px; border-top:1px dashed #c7d7e2;">
+                <div class="small" style="margin-bottom:6px; color:#2b3e4f; font-weight:bold;">Submenú: Distritos municipales</div>
+                <div id="districtBtns"></div>
+            </div>
         </div>
         <div class="section" id="exportBtns">
             <h3>Exportar</h3>

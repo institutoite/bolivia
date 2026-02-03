@@ -37,10 +37,26 @@
   .file-item.active label::before { transform: translateY(-50%) scale(1.05); border-color: transparent; background: linear-gradient(90deg, var(--c-accent), var(--c-dark)); }
   .file-item input[type="checkbox"]:checked + label::after,
   .file-item.active label::after { transform: translateY(-50%) rotate(45deg) scale(1); opacity:1; }
+  .file-item.submenu-item label{ padding-left:60px; font-size:14px; opacity:0.95; }
+  .file-item.submenu-item label::before{ left:24px; }
+  .file-item.submenu-item label::after{ left:28px; }
+    /* Submenú de capas */
+    .submenu-parent{ align-items:flex-start; }
+    .submenu-parent label{ flex:1 1 auto; }
+    .submenu-toggle{ border:none; background:transparent; color:var(--c-dark); cursor:pointer; font-size:16px; padding:6px 6px; border-radius:6px; line-height:1; }
+    .submenu-toggle:hover{ background: rgba(38,186,165,0.12); }
+    .submenu-toggle[aria-expanded="true"]{ transform: rotate(90deg); }
+    .submenu-items{ margin-left: 18px; border-left:2px dashed rgba(55,95,122,0.25); padding-left:10px; }
     .controls{ border-top:1px solid rgba(0,0,0,0.08); margin-top:10px; padding-top:10px; font-size:15px }
     .controls label{ display:flex; justify-content:space-between; align-items:center; gap:10px }
     .btn{ background:var(--c-dark); color:#fff; border:none; border-radius:8px; padding:8px 12px; font-size:15px; cursor:pointer }
     .btn:hover{ filter:brightness(1.05) }
+    #districtMenu{ margin-top:12px; padding-top:10px; border-top:1px solid rgba(0,0,0,0.08); }
+    #districtMenu h3{ margin:10px 0 8px; font-size:17px; color:var(--c-dark); font-weight:600; }
+    .district-list{ display:flex; flex-wrap:wrap; gap:6px; }
+    .district-btn{ padding:6px 8px; font-size:13px; border:1px solid var(--c-dark); background:#fff; cursor:pointer; border-radius:6px; color:var(--c-dark) }
+    .district-btn:hover{ background: rgba(38,186,165,0.12) }
+    .district-btn.active{ background: var(--c-accent); color:#fff; border-color:var(--c-accent); }
     /* Etiquetas permanentes para ríos */
     .leaflet-tooltip.geodatos-label{
       background: transparent;
@@ -107,6 +123,16 @@
     <h2>Geodatos</h2>
     <div class="small" style="color:#6b7c8a">Activa capas del repositorio geodatos-master</div>
     <div id="groups"></div>
+    <div class="group" id="staticMenuTest">
+      <h3>Menú estático (prueba)</h3>
+      <div class="file-item" style="margin:6px 0;">
+        <label style="cursor:default; padding:8px 10px;">Opción estática visible</label>
+      </div>
+      <div class="file-item submenu-item" style="margin:6px 0;">
+        <label style="cursor:default; padding:8px 10px;">Distritos Municipales Planif (estático)</label>
+      </div>
+    </div>
+    <div id="districtMenu"></div>
     <div class="controls">
       <label>Atenuación mundo <input type="range" id="worldOpacityGeodatos" min="0" max="1" step="0.01" value="0.05" /></label>
       <div style="display:flex; gap:8px; margin-top:8px">

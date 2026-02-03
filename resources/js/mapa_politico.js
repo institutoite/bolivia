@@ -14,11 +14,13 @@ if(!document.getElementById('map')) {
     opacity: 0.8,
     strokeWidth: 1.2,
     active: { level: 'adm1', id: null },
-    styles: { adm1: {}, adm3: {} }, // level -> id -> {fill, stroke, text}
+    styles: { adm1: {}, adm3: {}, dist: {} }, // level -> id -> {fill, stroke, text}
     halo: { enabled: true, color: '#ffffff', width: 3 },
   mode: 'menu', // 'menu' | 'bolivia' | 'departamento' | 'provincia'
     selectedDeptId: null,
     selectedProvId: null,
+    selectedDistrictId: null,
+    districtPulseOpacity: null,
     attenuationRestBolivia: 0.6,
     attenuationDepartment: 0.5,
     strokeOverrideColor: null
@@ -42,6 +44,7 @@ if(!document.getElementById('map')) {
   const legendContent = document.getElementById('legendContent');
   const toggleAdm1 = document.getElementById('toggleAdm1');
   const toggleAdm3 = document.getElementById('toggleAdm3');
+  const toggleDistricts = document.getElementById('toggleDistricts');
   const btnModeBolivia = document.getElementById('btnModeBolivia');
   const btnModeDepartamento = document.getElementById('btnModeDepartamento');
   const btnModeProvincia = document.getElementById('btnModeProvincia');
@@ -49,10 +52,12 @@ if(!document.getElementById('map')) {
   const modeNav = document.getElementById('modeNav');
   const sectionDeptList = document.getElementById('sectionDeptList');
   const sectionProvList = document.getElementById('sectionProvList');
+  const sectionDistrictList = document.getElementById('sectionDistrictList');
   const stylesSection = document.getElementById('stylesSection');
   const sectionLayers = document.getElementById('sectionLayers');
   const exportSection = document.getElementById('exportBtns');
   const legendSection = document.getElementById('legend');
+  const districtBtns = document.getElementById('districtBtns');
 
   // Usar renderer SVG (no Canvas) para mejor compatibilidad con exportación
   const map = L.map('map').setView([-16.5,-64.9], 5);
@@ -71,6 +76,9 @@ if(!document.getElementById('map')) {
   let layerAdm3 = null; // Provincias (dinámica según modo)
   let capitalsAdm1Layer = null; // Capitales departamentales
   let municipiosLayer = null; // Municipios (si el dataset existe)
+  let districtsLayer = null; // Distritos municipales
+  let districtsData = null;
+  let districtPulseRaf = null;
   let adm1Data = null;
   let adm3Data = null;
   const provinceParent = {}; // adm3Id -> adm1Id
@@ -154,8 +162,8 @@ if(!document.getElementById('map')) {
   // Normalizar props y extraer id/nombre
   function normalizeProps(props){
     // Posibles campos estándar en distintas fuentes
-    const nameCandidates = ['name','NAME_1','NAME','ADM1_ES','adm1_es','Nombre','NOMBRE','shapeName'];
-    const idCandidates = ['id','ID_1','HASC_1','ISO_1','GID_1','cartodb_id','shapeID'];
+    const nameCandidates = ['name','NAME_1','NAME','ADM1_ES','adm1_es','Nombre','NOMBRE','shapeName','etiqueta','dm_ext','DISTRITO','distrito','NOM_DIST','NOMBRE_DIST'];
+    const idCandidates = ['id','ID_1','HASC_1','ISO_1','GID_1','cartodb_id','shapeID','dm_id','fid','FID','COD_DIST'];
     const name = nameCandidates.map(k=>props[k]).find(v=> !!v) || 'SinNombre';
     let id = idCandidates.map(k=>props[k]).find(v=> !!v);
     if(!id) id = (name || 'feature').toLowerCase().replace(/[^a-z0-9]+/g,'_');
@@ -225,6 +233,7 @@ if(!document.getElementById('map')) {
   function refreshStyles(){
     if(layerAdm1) layerAdm1.setStyle(f => styleFor('adm1', normalizeProps(f.properties).__id));
     if(layerAdm3) layerAdm3.setStyle(f => styleFor('adm3', normalizeProps(f.properties).__id));
+    if(districtsLayer) refreshDistrictStyles();
     // actualiza colores de las etiquetas
     document.querySelectorAll('.dept-label-span').forEach(span => {
       const id = span.dataset.id;
@@ -280,7 +289,7 @@ if(!document.getElementById('map')) {
   }
 
   function syncUI(){
-    document.querySelectorAll('.dept-btn').forEach(b => b.classList.toggle('active', (b.dataset.id === state.active.id && b.dataset.level === state.active.level)));
+    document.querySelectorAll('#adm1Btns .dept-btn, #adm3Btns .dept-btn').forEach(b => b.classList.toggle('active', (b.dataset.id === state.active.id && b.dataset.level === state.active.level)));
     if(state.active && state.styles[state.active.level][state.active.id]){
       const s = state.styles[state.active.level][state.active.id];
       fillInput.value = s.fill;
@@ -305,11 +314,119 @@ if(!document.getElementById('map')) {
     refreshStyles();
   }
 
+  function syncDistrictButtons(){
+    if (!districtBtns) return;
+    districtBtns.querySelectorAll('button').forEach(b => {
+      b.classList.toggle('active', b.dataset.id === String(state.selectedDistrictId || ''));
+    });
+  }
+
+  function styleForDistrict(id){
+    const s = state.styles.dist[id] || { fill: '#ffecb3', stroke: '#6d4c41', text: '#000000' };
+    const isSelected = String(id) === String(state.selectedDistrictId || '');
+    const baseOpacity = 0.45;
+    const pulseOpacity = state.districtPulseOpacity ?? baseOpacity;
+    return {
+      color: isSelected ? '#d84315' : s.stroke,
+      weight: isSelected ? Math.max(2, state.strokeWidth) : Math.max(1, state.strokeWidth * 0.7),
+      fillColor: isSelected ? '#ff7043' : s.fill,
+      fillOpacity: isSelected ? pulseOpacity : baseOpacity
+    };
+  }
+
+  function refreshDistrictStyles(){
+    if(!districtsLayer) return;
+    districtsLayer.setStyle(f => styleForDistrict(normalizeProps(f.properties).__id));
+  }
+
+  function startDistrictPulse(){
+    if (districtPulseRaf) return;
+    let start = null;
+    const tick = (ts) => {
+      if (!state.selectedDistrictId || !districtsLayer || !map.hasLayer(districtsLayer)) {
+        stopDistrictPulse();
+        return;
+      }
+      if (start === null) start = ts;
+      const t = (ts - start) / 1000;
+      const min = 0.2;
+      const max = 0.75;
+      const osc = (Math.sin(t * Math.PI * 2 * 0.6) + 1) / 2;
+      state.districtPulseOpacity = min + osc * (max - min);
+      refreshDistrictStyles();
+      districtPulseRaf = requestAnimationFrame(tick);
+    };
+    districtPulseRaf = requestAnimationFrame(tick);
+  }
+
+  function stopDistrictPulse(){
+    if (districtPulseRaf) cancelAnimationFrame(districtPulseRaf);
+    districtPulseRaf = null;
+    state.districtPulseOpacity = null;
+  }
+
+  function clearDistricts(){
+    if (districtsLayer && map.hasLayer(districtsLayer)) map.removeLayer(districtsLayer);
+    if (districtBtns) districtBtns.innerHTML = '';
+    if (sectionDistrictList) sectionDistrictList.style.display = 'none';
+    state.selectedDistrictId = null;
+    stopDistrictPulse();
+  }
+
+  async function ensureDistrictsLayer(){
+    if (districtsLayer && districtsData) return;
+    try {
+      const res = await fetch('/geo/geodatos-master/scz_munic/scz_distritos_municipales_planif.geojson');
+      if (!res.ok) throw new Error('Distritos no encontrados');
+      districtsData = await res.json();
+      prepareLevel('dist', districtsData.features);
+      districtsLayer = L.geoJSON(districtsData, {
+        style: feat => styleForDistrict(normalizeProps(feat.properties).__id),
+        renderer: canvasRenderer,
+        onEachFeature: (feature, layer) => {
+          const p = normalizeProps(feature.properties);
+          layer.bindTooltip(p.__name, {sticky:true, direction:'center', className:'deptTooltip'});
+          layer.on('click', () => selectDistrict(p.__id));
+        }
+      });
+    } catch (e){
+      notify('Dataset de distritos municipales no disponible. Añade /public/geo/geodatos-master/scz_munic/scz_distritos_municipales_planif.geojson');
+    }
+  }
+
+  function buildDistrictButtons(features){
+    if (!districtBtns) return;
+    districtBtns.innerHTML = '';
+    features.forEach(f => {
+      const p = normalizeProps(f.properties);
+      const b = document.createElement('button');
+      b.className = 'dept-btn';
+      b.dataset.id = p.__id;
+      b.textContent = p.__name;
+      b.onclick = () => selectDistrict(p.__id);
+      districtBtns.appendChild(b);
+    });
+    syncDistrictButtons();
+  }
+
+  function selectDistrict(id){
+    state.selectedDistrictId = id;
+    syncDistrictButtons();
+    refreshDistrictStyles();
+    startDistrictPulse();
+    if (districtsLayer){
+      const lyr = findLayerById(districtsLayer, 'dist', id);
+      if (lyr) map.fitBounds(lyr.getBounds(), { padding:[25,25] });
+    }
+  }
+
   // --- Modo y navegación ---
   function setMode(mode){
     state.mode = mode;
     state.selectedDeptId = null;
     state.selectedProvId = null;
+    state.selectedDistrictId = null;
+    clearDistricts();
     renderMode();
   }
 
@@ -324,12 +441,17 @@ if(!document.getElementById('map')) {
     if (state.mode === 'menu'){
       if (sectionDeptList) sectionDeptList.style.display = 'none';
       if (sectionProvList) sectionProvList.style.display = 'none';
+      if (sectionDistrictList) sectionDistrictList.style.display = 'none';
       if (sectionLayers) sectionLayers.style.display = 'none';
       if (exportSection) exportSection.style.display = 'none';
       if (legendSection) legendSection.style.display = 'none';
     } else {
       if (sectionDeptList) sectionDeptList.style.display = (state.mode === 'bolivia' ? 'none' : 'block');
       if (sectionProvList) sectionProvList.style.display = ((state.mode === 'departamento' && state.selectedDeptId) || state.mode==='provincia') ? 'block' : 'none';
+      if (sectionDistrictList) {
+        const showDistricts = (state.mode === 'provincia' && toggleDistricts && toggleDistricts.checked);
+        sectionDistrictList.style.display = showDistricts ? 'block' : 'none';
+      }
       if (sectionLayers) sectionLayers.style.display = '';
       if (exportSection) exportSection.style.display = '';
       if (legendSection) legendSection.style.display = '';
@@ -355,6 +477,9 @@ if(!document.getElementById('map')) {
     // Mostrar/ocultar capas según modo
     // Reset elementos variables
     if (municipiosLayer && map.hasLayer(municipiosLayer)) { map.removeLayer(municipiosLayer); municipiosLayer = null; }
+    const keepDistricts = (state.mode === 'provincia' && toggleDistricts && toggleDistricts.checked);
+    if (!keepDistricts && districtsLayer && map.hasLayer(districtsLayer)) { map.removeLayer(districtsLayer); }
+    if (!keepDistricts) stopDistrictPulse();
     if (labelGroupAdm3 && map.hasLayer(labelGroupAdm3)) map.removeLayer(labelGroupAdm3);
     if (layerAdm3 && map.hasLayer(layerAdm3)) map.removeLayer(layerAdm3);
     if (capitalsAdm1Layer && map.hasLayer(capitalsAdm1Layer)) map.removeLayer(capitalsAdm1Layer);
@@ -413,6 +538,13 @@ if(!document.getElementById('map')) {
           addLabelsFor(layerAdm3, 'adm3', labelGroupAdm3);
           map.addLayer(labelGroupAdm3);
         }
+        if (toggleDistricts && toggleDistricts.checked) {
+          ensureDistrictsLayer().then(() => {
+            if (districtsLayer && !map.hasLayer(districtsLayer)) map.addLayer(districtsLayer);
+            if (districtsData && districtsData.features) buildDistrictButtons(districtsData.features);
+            refreshDistrictStyles();
+          });
+        }
       } else {
         const provFeature = adm3Data.features.find(f => normalizeProps(f.properties).__id === state.selectedProvId);
         if (provFeature){
@@ -426,6 +558,19 @@ if(!document.getElementById('map')) {
           if (lyr) map.fitBounds(lyr.getBounds(), { padding:[35,35] });
           // Intentar cargar municipios
           tryLoadMunicipios().catch(()=>{});
+
+          // Distritos municipales (si se activan)
+          if (toggleDistricts && toggleDistricts.checked) {
+            ensureDistrictsLayer().then(() => {
+              if (districtsLayer && !map.hasLayer(districtsLayer) && state.mode === 'provincia' && toggleDistricts.checked) {
+                map.addLayer(districtsLayer);
+                if (districtsData && districtsData.features) buildDistrictButtons(districtsData.features);
+                refreshDistrictStyles();
+              }
+            });
+          } else {
+            clearDistricts();
+          }
         }
       }
     }
@@ -438,6 +583,10 @@ if(!document.getElementById('map')) {
       // En modo Bolivia, mostrar listas originales completas
       buildButtons('adm1', adm1Data.features);
       buildButtons('adm3', adm3Data.features);
+    }
+
+    if (state.mode !== 'provincia' || !toggleDistricts || !toggleDistricts.checked) {
+      clearDistricts();
     }
 
     // Estilos refrescados
@@ -469,7 +618,13 @@ if(!document.getElementById('map')) {
       b.className = 'dept-btn';
       b.dataset.id = f.properties.__id; b.dataset.level = 'adm3';
       b.textContent = f.properties.__name;
-      b.onclick = () => { state.selectedProvId = f.properties.__id; renderMode(); };
+      b.onclick = () => {
+        state.selectedProvId = f.properties.__id;
+        state.selectedDistrictId = null;
+        stopDistrictPulse();
+        syncDistrictButtons();
+        renderMode();
+      };
       container.appendChild(b);
     });
   }
@@ -649,6 +804,16 @@ if(!document.getElementById('map')) {
   }
   toggleAdm1.addEventListener('change', syncUI);
   toggleAdm3.addEventListener('change', () => { syncUI(); renderMode(); });
+  if (toggleDistricts) toggleDistricts.addEventListener('change', () => {
+    if (toggleDistricts.checked && state.mode === 'provincia') {
+      ensureDistrictsLayer().then(() => {
+        if (districtsLayer && !map.hasLayer(districtsLayer)) map.addLayer(districtsLayer);
+        if (districtsData && districtsData.features) buildDistrictButtons(districtsData.features);
+        refreshDistrictStyles();
+      });
+    }
+    renderMode();
+  });
 
   if (btnModeBolivia) btnModeBolivia.addEventListener('click', () => setMode('bolivia'));
   if (btnModeDepartamento) btnModeDepartamento.addEventListener('click', () => setMode('departamento'));

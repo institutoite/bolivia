@@ -120,6 +120,7 @@ import 'leaflet/dist/leaflet.css';
 
   const renderer = L.canvas({ padding: 0.5 });
   const groupsContainer = document.getElementById('groups');
+  const districtMenu = document.getElementById('districtMenu');
   const dataScript = document.getElementById('geodata-index');
   let index = [];
   try { index = JSON.parse(dataScript?.textContent||'[]'); } catch(e){ index = []; }
@@ -139,6 +140,11 @@ import 'leaflet/dist/leaflet.css';
   });
 
   const layers = new Map(); // url -> Leaflet layer
+  let districtsLayer = null;
+  let districtsData = null;
+  let selectedDistrictId = null;
+  let districtPulseRaf = null;
+  let districtPulseOpacity = null;
   // Nota: mantenemos layers como url->layer. Al crear la UI añadimos handlers de hover
   // Modal refs
   const modal = document.getElementById('feature-modal');
@@ -178,19 +184,28 @@ import 'leaflet/dist/leaflet.css';
       const sec = document.createElement('div'); sec.className = 'group';
       const h = document.createElement('h3'); h.textContent = g; sec.appendChild(h);
       const list = document.createElement('div');
-      byGroup.get(g).forEach(item => {
+      const items = byGroup.get(g);
+      const getDisplayName = (item) => humanizeName(item.name);
+      const normalizePath = (p) => String(p || '').toLowerCase().replace(/\\/g,'/');
+      const isDistrictsParent = (item) => normalizePath(item.path).includes('scz_munic/scz_distritos_municipales.geojson');
+      const isDistrictsPlanif = (item) => normalizePath(item.path).includes('scz_munic/scz_distritos_municipales_planif.geojson');
+      const districtsItem = items.find(i => isDistrictsParent(i)) || null;
+      const districtsPlanifItem = items.find(i => isDistrictsPlanif(i)) || null;
+
+      const createRow = (item, opts = {}) => {
         const row = document.createElement('div'); row.className = 'file-item';
-  const cb = document.createElement('input'); cb.type='checkbox'; cb.dataset.url=item.url;
+        if (opts.submenu) row.classList.add('submenu-item');
+        const cb = document.createElement('input'); cb.type='checkbox'; cb.dataset.url=item.url;
         // Asociamos el checkbox con el label mediante id para accesibilidad
         const id = 'cb_' + Math.random().toString(36).slice(2,9);
         cb.id = id; cb.dataset.url = item.url;
         const label = document.createElement('label');
         label.htmlFor = id;
-        label.textContent = humanizeName(item.name);
+        label.textContent = opts.prefix ? `${opts.prefix}${getDisplayName(item)}` : getDisplayName(item);
         label.title = item.name;
         label.style.flex='1';
         // Toggle de capa al cambiar checkbox
-  cb.addEventListener('change', () => toggleLayer(item, cb.checked));
+        cb.addEventListener('change', () => toggleLayer(item, cb.checked));
         // Efecto hover: si la capa ya está cargada, resaltar geometrías
         label.addEventListener('mouseenter', () => {
           const url = item.url;
@@ -207,11 +222,165 @@ import 'leaflet/dist/leaflet.css';
           if (rowEl && rowEl.classList.contains('active')) return;
           restoreLayer(url, item);
         });
+        row.appendChild(cb); row.appendChild(label);
+        return row;
+      };
 
-        row.appendChild(cb); row.appendChild(label); list.appendChild(row);
+      items.forEach(item => {
+        if (districtsItem && districtsPlanifItem && item === districtsPlanifItem) return; // se agregará luego
+        list.appendChild(createRow(item));
+        if (districtsItem && districtsPlanifItem && item === districtsItem){
+          list.appendChild(createRow(districtsPlanifItem, { submenu: true, prefix: '↳ ' }));
+        }
       });
       sec.appendChild(list);
       groupsContainer.appendChild(sec);
+    });
+  }
+
+  function getDistrictId(props){
+    return props?.dm_id ?? props?.id ?? props?.fid ?? props?.FID ?? props?.COD_DIST ?? props?.cod_dist;
+  }
+
+  function getDistrictLabel(props){
+    const etiqueta = props?.etiqueta || props?.Etiqueta || props?.ETIQUETA || '';
+    const ext = props?.dm_ext || props?.DM_EXT || '';
+    if (etiqueta && ext) return `${etiqueta} — ${ext}`;
+    return etiqueta || ext || extractName(props) || 'Distrito';
+  }
+
+  function styleForDistrict(feature){
+    const id = feature?.properties?.__dist_id;
+    const isSelected = String(id) === String(selectedDistrictId || '');
+    const baseOpacity = 0.45;
+    const pulseOpacity = districtPulseOpacity ?? baseOpacity;
+    return {
+      color: isSelected ? '#d84315' : '#6d4c41',
+      weight: isSelected ? 2.6 : 1.2,
+      fillColor: isSelected ? '#ff7043' : '#ffecb3',
+      fillOpacity: isSelected ? pulseOpacity : baseOpacity
+    };
+  }
+
+  function refreshDistrictStyles(){
+    if (!districtsLayer) return;
+    districtsLayer.setStyle(f => styleForDistrict(f));
+  }
+
+  function startDistrictPulse(){
+    if (districtPulseRaf) return;
+    let start = null;
+    const tick = (ts) => {
+      if (!selectedDistrictId || !districtsLayer || !map.hasLayer(districtsLayer)) {
+        stopDistrictPulse();
+        return;
+      }
+      if (start === null) start = ts;
+      const t = (ts - start) / 1000;
+      const min = 0.2;
+      const max = 0.8;
+      const osc = (Math.sin(t * Math.PI * 2 * 0.6) + 1) / 2;
+      districtPulseOpacity = min + osc * (max - min);
+      refreshDistrictStyles();
+      districtPulseRaf = requestAnimationFrame(tick);
+    };
+    districtPulseRaf = requestAnimationFrame(tick);
+  }
+
+  function stopDistrictPulse(){
+    if (districtPulseRaf) cancelAnimationFrame(districtPulseRaf);
+    districtPulseRaf = null;
+    districtPulseOpacity = null;
+  }
+
+  function syncDistrictButtons(){
+    if (!districtMenu) return;
+    districtMenu.querySelectorAll('.district-btn').forEach(b => {
+      b.classList.toggle('active', b.dataset.id === String(selectedDistrictId || ''));
+    });
+  }
+
+  function selectDistrict(id){
+    selectedDistrictId = id;
+    if (districtsLayer && !map.hasLayer(districtsLayer)) map.addLayer(districtsLayer);
+    syncDistrictButtons();
+    refreshDistrictStyles();
+    startDistrictPulse();
+    if (districtsLayer){
+      let target = null;
+      districtsLayer.eachLayer(l => {
+        const pid = l?.feature?.properties?.__dist_id;
+        if (String(pid) === String(id)) target = l;
+      });
+      if (target && target.getBounds) map.fitBounds(target.getBounds(), { padding:[20,20] });
+      if (target && target.bringToFront) target.bringToFront();
+    }
+  }
+
+  async function ensureDistrictsLayer(){
+    if (districtsLayer && districtsData) return;
+    try{
+      const res = await fetch('/geo/geodatos-master/scz_munic/scz_distritos_municipales_planif.geojson');
+      if (!res.ok) throw new Error('Distritos no encontrados');
+      districtsData = await res.json();
+      districtsLayer = L.geoJSON(districtsData, {
+        style: feature => styleForDistrict(feature),
+        renderer,
+        onEachFeature: (feature, layer) => {
+          const p = feature.properties || {};
+          p.__dist_id = getDistrictId(p);
+          p.__dist_label = getDistrictLabel(p);
+          layer.bindTooltip(p.__dist_label, {sticky:true, direction:'center', className:'deptTooltip'});
+          layer.on('click', () => selectDistrict(p.__dist_id));
+        }
+      });
+    }catch(e){
+      console.error(e);
+    }
+  }
+
+  function renderDistrictMenu(){
+    if (!districtMenu) return;
+    districtMenu.innerHTML = '';
+    const h = document.createElement('h3');
+    h.textContent = 'Distritos Municipales (SCZ)';
+    const list = document.createElement('div');
+    list.className = 'district-list';
+    districtMenu.appendChild(h);
+    districtMenu.appendChild(list);
+
+    const staticBtn = document.createElement('button');
+    staticBtn.type = 'button';
+    staticBtn.className = 'district-btn';
+    staticBtn.textContent = 'Opción estática (prueba)';
+    staticBtn.addEventListener('click', () => {
+      selectedDistrictId = 'static-test';
+      syncDistrictButtons();
+      stopDistrictPulse();
+    });
+    list.appendChild(staticBtn);
+
+    ensureDistrictsLayer().then(() => {
+      if (!districtsData || !Array.isArray(districtsData.features)) return;
+      const feats = districtsData.features.slice();
+      feats.sort((a,b) => {
+        const pa = a.properties || {}, pb = b.properties || {};
+        const la = getDistrictLabel(pa); const lb = getDistrictLabel(pb);
+        return String(la).localeCompare(String(lb));
+      });
+      feats.forEach(f => {
+        const p = f.properties || {};
+        const id = getDistrictId(p);
+        const label = getDistrictLabel(p);
+        const b = document.createElement('button');
+        b.type = 'button';
+        b.className = 'district-btn';
+        b.dataset.id = String(id);
+        b.textContent = label;
+        b.addEventListener('click', () => selectDistrict(id));
+        list.appendChild(b);
+      });
+      syncDistrictButtons();
     });
   }
 
@@ -621,8 +790,13 @@ import 'leaflet/dist/leaflet.css';
       layers.forEach(layer => map.removeLayer(layer));
       layers.clear();
       groupsContainer.querySelectorAll('input[type=checkbox]').forEach(cb => cb.checked = false);
+      if (districtsLayer && map.hasLayer(districtsLayer)) map.removeLayer(districtsLayer);
+      selectedDistrictId = null;
+      stopDistrictPulse();
+      syncDistrictButtons();
     });
   }
 
   drawSidebar();
+  renderDistrictMenu();
 })();
