@@ -255,9 +255,9 @@ import 'leaflet/dist/leaflet.css';
     const baseOpacity = 0.45;
     const pulseOpacity = districtPulseOpacity ?? baseOpacity;
     return {
-      color: isSelected ? '#d84315' : '#6d4c41',
+      color: isSelected ? '#375f7a' : '#375f7a',
       weight: isSelected ? 2.6 : 1.2,
-      fillColor: isSelected ? '#ff7043' : '#ffecb3',
+      fillColor: isSelected ? '#26baa5' : '#eaf9f6',
       fillOpacity: isSelected ? pulseOpacity : baseOpacity
     };
   }
@@ -295,7 +295,7 @@ import 'leaflet/dist/leaflet.css';
 
   function syncDistrictButtons(){
     if (!districtMenu) return;
-    districtMenu.querySelectorAll('.district-btn').forEach(b => {
+    districtMenu.querySelectorAll('.district-item').forEach(b => {
       b.classList.toggle('active', b.dataset.id === String(selectedDistrictId || ''));
     });
   }
@@ -342,24 +342,50 @@ import 'leaflet/dist/leaflet.css';
   function renderDistrictMenu(){
     if (!districtMenu) return;
     districtMenu.innerHTML = '';
-    const h = document.createElement('h3');
-    h.textContent = 'Distritos Municipales (SCZ)';
-    const list = document.createElement('div');
-    list.className = 'district-list';
-    districtMenu.appendChild(h);
-    districtMenu.appendChild(list);
+    const container = document.createElement('div');
+    container.className = 'group';
 
-    const staticBtn = document.createElement('button');
-    staticBtn.type = 'button';
-    staticBtn.className = 'district-btn';
-    staticBtn.textContent = 'Opción estática (prueba)';
-    staticBtn.addEventListener('click', () => {
-      selectedDistrictId = 'static-test';
-      syncDistrictButtons();
-      stopDistrictPulse();
+    // Header con botón de expandir
+    const header = document.createElement('div');
+    header.className = 'district-submenu-parent';
+
+    const toggleBtn = document.createElement('button');
+    toggleBtn.className = 'district-submenu-toggle';
+    toggleBtn.setAttribute('aria-expanded', 'false');
+    toggleBtn.textContent = '▶';
+
+    const headerLabel = document.createElement('label');
+    headerLabel.textContent = 'Distritos Municipales';
+    headerLabel.style.flex = '1';
+    headerLabel.style.margin = '0';
+
+    header.appendChild(toggleBtn);
+    header.appendChild(headerLabel);
+    container.appendChild(header);
+
+    // Lista de distritos (inicialmente oculta)
+    const listItems = document.createElement('div');
+    listItems.className = 'district-submenu-items';
+    container.appendChild(listItems);
+
+    // Botón "Automático" (anima todos los distritos)
+    const autoBtn = document.createElement('button');
+    autoBtn.type = 'button';
+    autoBtn.className = 'district-auto-btn';
+    autoBtn.textContent = 'Automático';
+    autoBtn.addEventListener('click', () => selectAllDistrictsAnimated());
+    container.appendChild(autoBtn);
+
+    districtMenu.appendChild(container);
+
+    // Toggle para expandir/contraer
+    toggleBtn.addEventListener('click', () => {
+      const isOpen = toggleBtn.getAttribute('aria-expanded') === 'true';
+      toggleBtn.setAttribute('aria-expanded', !isOpen);
+      listItems.classList.toggle('open', !isOpen);
     });
-    list.appendChild(staticBtn);
 
+    // Cargar distritos
     ensureDistrictsLayer().then(() => {
       if (!districtsData || !Array.isArray(districtsData.features)) return;
       const feats = districtsData.features.slice();
@@ -372,16 +398,155 @@ import 'leaflet/dist/leaflet.css';
         const p = f.properties || {};
         const id = getDistrictId(p);
         const label = getDistrictLabel(p);
-        const b = document.createElement('button');
-        b.type = 'button';
-        b.className = 'district-btn';
-        b.dataset.id = String(id);
-        b.textContent = label;
-        b.addEventListener('click', () => selectDistrict(id));
-        list.appendChild(b);
+
+        const item = document.createElement('div');
+        item.className = 'district-item';
+        item.dataset.id = String(id);
+
+        const badge = document.createElement('div');
+        badge.className = 'district-item-badge';
+
+        const text = document.createElement('span');
+        text.textContent = label;
+        text.style.flex = '1';
+
+        item.appendChild(badge);
+        item.appendChild(text);
+
+        item.addEventListener('click', () => {
+          selectDistrictAnimated(id, item);
+        });
+
+        listItems.appendChild(item);
       });
-      syncDistrictButtons();
     });
+  }
+
+  // Animar un solo distrito: primero bordes, luego relleno
+  function selectDistrictAnimated(id, itemElement){
+    if (!districtsLayer || !districtsData) return;
+
+    selectedDistrictId = id;
+    if (!map.hasLayer(districtsLayer)) map.addLayer(districtsLayer);
+
+    // Animar el badge del item
+    if (itemElement) {
+      itemElement.classList.add('animated');
+      setTimeout(() => itemElement.classList.remove('animated'), 3000);
+    }
+
+    // Encontrar la geometría del distrito
+    let target = null;
+    districtsLayer.eachLayer(l => {
+      const pid = l?.feature?.properties?.__dist_id;
+      if (String(pid) === String(id)) target = l;
+    });
+
+    if (target) {
+      // Animar bordes primero, luego relleno
+      animateDistrictBordersFirst(target, id);
+      if (target.getBounds) map.fitBounds(target.getBounds(), { padding:[20,20] });
+      if (target.bringToFront) target.bringToFront();
+    }
+
+    syncDistrictButtons();
+  }
+
+  // Animar todos los distritos secuencialmente
+  function selectAllDistrictsAnimated(){
+    if (!districtsLayer || !districtsData) return;
+
+    selectedDistrictId = null; // reset
+    if (!map.hasLayer(districtsLayer)) map.addLayer(districtsLayer);
+
+    const items = Array.from(districtMenu.querySelectorAll('.district-item'));
+    const autoBtn = districtMenu.querySelector('.district-auto-btn');
+
+    // Marcar botón como animando
+    if (autoBtn) autoBtn.classList.add('animating');
+
+    // Animar cada distrito con delay
+    items.forEach((item, idx) => {
+      const delay = idx * 300; // 300ms entre cada distrito
+      setTimeout(() => {
+        const districtId = item.dataset.id;
+        item.classList.add('animated');
+
+        let target = null;
+        districtsLayer.eachLayer(l => {
+          const pid = l?.feature?.properties?.__dist_id;
+          if (String(pid) === String(districtId)) target = l;
+        });
+
+        if (target) {
+          animateDistrictBordersFirst(target, districtId);
+        }
+
+        // Remover animación después
+        setTimeout(() => item.classList.remove('animated'), 2700);
+      }, delay);
+    });
+
+    // Remover estado del botón
+    setTimeout(() => {
+      if (autoBtn) autoBtn.classList.remove('animating');
+      refreshDistrictStyles();
+    }, items.length * 300 + 2700);
+  }
+
+  // Animar borde primero (1s), luego relleno (1s)
+  function animateDistrictBordersFirst(layer, districtId){
+    if (!layer.setStyle) return;
+
+    // Fase 1: Animar bordes (abrir)
+    const startBorder = Date.now();
+    const borderDuration = 1000; // 1 segundo
+
+    const borderAnim = setInterval(() => {
+      const elapsed = Date.now() - startBorder;
+      const progress = Math.min(1, elapsed / borderDuration);
+
+      layer.setStyle({
+        color: '#375f7a',
+        weight: 1.2 + progress * 2.0, // crecer de 1.2 a 3.2
+        fillColor: '#eaf9f6',
+        fillOpacity: 0.1, // muy transparente aún
+        opacity: 0.5 + progress * 0.5 // crecer de 0.5 a 1.0
+      });
+
+      if (progress >= 1) {
+        clearInterval(borderAnim);
+
+        // Fase 2: Animar relleno (llenar)
+        const startFill = Date.now();
+        const fillDuration = 1000; // 1 segundo
+
+        const fillAnim = setInterval(() => {
+          const elapsed = Date.now() - startFill;
+          const progress = Math.min(1, elapsed / fillDuration);
+
+          layer.setStyle({
+            color: '#375f7a',
+            weight: 3.2,
+            fillColor: '#26baa5',
+            fillOpacity: 0.1 + progress * 0.65, // crecer de 0.1 a 0.75
+            opacity: 1.0
+          });
+
+          if (progress >= 1) {
+            clearInterval(fillAnim);
+            // Estilo final
+            layer.setStyle({
+              color: '#375f7a',
+              weight: 2.6,
+              fillColor: '#26baa5',
+              fillOpacity: 0.65,
+              opacity: 1.0
+            });
+          }
+        }, 16);
+      }
+    }, 16);
   }
 
   // Escuchar cambios de zoom para ajustar labels

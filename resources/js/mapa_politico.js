@@ -322,14 +322,14 @@ if(!document.getElementById('map')) {
   }
 
   function styleForDistrict(id){
-    const s = state.styles.dist[id] || { fill: '#ffecb3', stroke: '#6d4c41', text: '#000000' };
+    const s = state.styles.dist[id] || { fill: '#eaf9f6', stroke: '#375f7a', text: '#000000' };
     const isSelected = String(id) === String(state.selectedDistrictId || '');
     const baseOpacity = 0.45;
     const pulseOpacity = state.districtPulseOpacity ?? baseOpacity;
     return {
-      color: isSelected ? '#d84315' : s.stroke,
+      color: isSelected ? '#375f7a' : s.stroke,
       weight: isSelected ? Math.max(2, state.strokeWidth) : Math.max(1, state.strokeWidth * 0.7),
-      fillColor: isSelected ? '#ff7043' : s.fill,
+      fillColor: isSelected ? '#26baa5' : s.fill,
       fillOpacity: isSelected ? pulseOpacity : baseOpacity
     };
   }

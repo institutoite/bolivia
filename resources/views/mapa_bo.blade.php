@@ -1,20 +1,23 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es-BO">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Mapa bo.json — Visualización</title>
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
-  @vite(['resources/js/app.js','resources/css/app.css'])
-  <style>
-    html, body { height:100%; margin:0 }
-    #map-bo { width:100%; height:100vh }
-    .info-box { position:absolute; top:10px; right:10px; background:#ffffff; border:1px solid rgba(0,0,0,0.1); border-radius:8px; padding:10px; color:#1f2a33; font: 13px/1.3 system-ui, -apple-system, Segoe UI, Roboto }
-    .info-box b{color:#375f7a}
-  </style>
+    <x-seo
+        title="Visualizador geográfico de Bolivia"
+        description="Visualiza información geográfica de Bolivia en un mapa interactivo desarrollado por IFE Educabol."
+    />
+    @vite(['resources/js/app.js', 'resources/css/app.css'])
 </head>
 <body>
-  <div id="map-bo" data-bo-url="{{ asset('geo/bo.json') }}"></div>
-  <div class="info-box" id="boInfo" style="display:none"></div>
+<a class="skip-link" href="#map-bo">Saltar al mapa</a>
+<main class="map-workspace">
+    <div class="map-brand-overlay">
+        <x-brand compact />
+        <a class="workspace-home" href="{{ url('/') }}" aria-label="Volver al inicio" title="Volver al inicio">
+            <svg class="fa-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m3 11 9-8 9 8v10h-6v-6H9v6H3V11Z"/></svg>
+        </a>
+    </div>
+    <div id="map-bo" class="map-surface" data-bo-url="{{ asset('geo/bo.json') }}" role="region" aria-label="Visualizador geográfico de Bolivia"></div>
+    <div class="info-box" id="boInfo" style="display:none"></div>
+</main>
 </body>
 </html>

@@ -1,6 +1,6 @@
 {
   "node_modules/canvg/lib/index.es.js": {
-    "file": "assets/index.es-TzU_QLmo.js",
+    "file": "assets/index.es-BallO4CQ.js",
     "name": "index.es",
     "src": "node_modules/canvg/lib/index.es.js",
     "isDynamicEntry": true,
@@ -27,13 +27,12 @@
     "src": "node_modules/leaflet/dist/images/marker-icon.png"
   },
   "resources/css/app.css": {
-    "file": "assets/app-l0sNRNKZ.js",
-    "name": "app",
+    "file": "assets/app-k4AUKWMu.css",
     "src": "resources/css/app.css",
     "isEntry": true
   },
   "resources/js/app.js": {
-    "file": "assets/app-BnU-dC-7.js",
+    "file": "assets/app-BtBGvO-J.js",
     "name": "app",
     "src": "resources/js/app.js",
     "isEntry": true,

@@ -1,28 +1,32 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es-BO">
 <head>
-    <meta charset="UTF-8">
-    <title>Mapa Bolivia</title>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
-    <style>
-        #map { height: 80vh; }
-        #panel { padding:8px; background:#f8f8f8; display:flex; gap:10px; flex-wrap:wrap; }
-        .dept-btn { padding:4px 8px; border:1px solid #888; background:#fff; cursor:pointer; }
-        .dept-btn.active { background:#007bff; color:#fff; }
-        .label { font:12px Arial; font-weight:bold; color:#000; text-shadow:0 0 3px #fff; }
-    </style>
+    <x-seo
+        title="Mapa interactivo de Bolivia"
+        description="Selecciona departamentos, cambia colores y exporta un mapa de Bolivia con la herramienta educativa de IFE Educabol."
+    />
+    @vite(['resources/js/app.js', 'resources/css/app.css'])
 </head>
 <body>
-<div id="panel">
-    <div id="departamentosBtns"></div>
-    <label>Color área <input type="color" id="colorFill" value="#66bb6a"></label>
-    <label>Color borde <input type="color" id="colorStroke" value="#222222"></label>
-    <label>Color texto <input type="color" id="colorText" value="#000000"></label>
-    <button id="btnExportPNG">PNG</button>
-    <button id="btnExportPDF">PDF</button>
-</div>
-<div id="map"></div>
-
-@vite(['resources/js/mapa-leaflet.js'])
+<main class="map-workspace">
+    <aside id="panel" class="map-panel">
+        <div class="workspace-brand">
+            <x-brand compact />
+            <a class="workspace-home" href="{{ url('/') }}" aria-label="Volver al inicio">←</a>
+        </div>
+        <h1 class="workspace-title">Mapa de Bolivia</h1>
+        <div class="section"><h3>Departamentos</h3><div id="departamentosBtns"></div></div>
+        <div class="section flex-col">
+            <label><span>Color de área</span><input type="color" id="colorFill" value="#26baa5"></label>
+            <label><span>Color de borde</span><input type="color" id="colorStroke" value="#375f7a"></label>
+            <label><span>Color de texto</span><input type="color" id="colorText" value="#000000"></label>
+        </div>
+        <div id="exportBtns">
+            <button type="button" id="btnExportPNG">PNG</button>
+            <button type="button" id="btnExportPDF">PDF</button>
+        </div>
+    </aside>
+    <div id="map" class="map-surface" role="region" aria-label="Mapa interactivo de Bolivia"></div>
+</main>
 </body>
 </html>

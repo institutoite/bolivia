@@ -1,0 +1,18 @@
+{
+  "name": "Mapas Bolivia por IFE Educabol",
+  "short_name": "Mapas Bolivia",
+  "description": "Herramienta educativa para personalizar, explorar y exportar mapas de Bolivia.",
+  "lang": "es-BO",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#26BAA5",
+  "icons": [
+    {
+      "src": "/images/icono-ife-educabol-instituto-formacion-educabol.png",
+      "sizes": "63x68",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}
